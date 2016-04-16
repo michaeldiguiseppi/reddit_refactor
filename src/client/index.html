@@ -108,7 +108,7 @@
                 <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;{{ postObj.comments.length }} <ng-pluralize count="postObj.comments.length" when="{'one': 'comment', other: 'comments'}"></ng-pluralize>
             </div>
             &nbsp;<span><strong>|</strong></span>&nbsp;
-            <div class="block-inline pointer" ng-click="postObj.postComment = !postObj.postComment" >
+            <div class="block-inline pointer disable-selection " ng-click="postObj.postComment = !postObj.postComment" >
                 <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Add Comment
             </div>
             <br />

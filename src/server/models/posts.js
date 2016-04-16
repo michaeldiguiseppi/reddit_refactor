@@ -25,6 +25,17 @@ var PostSchema = new Schema({
   },
   postedAt: {
     type: Date,
+  },
+  comments: {
+    type: Array,
+  },
+  showComments: {
+    type: Boolean,
+    default: false,
+  },
+  postComment: {
+    type: Boolean,
+    default: false,
   }
 });
 

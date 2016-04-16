@@ -1,6 +1,8 @@
 window.app.controller('PostController', ['$scope', 'postDataService', function($scope, postDataService) {
   $scope.post = {};
+  $scope.comment = {};
   $scope.showSubmit = false;
+  $scope.showComments = false;
   $scope.addPost = function() {
     postDataService.addPost({
       title: this.post.title,
@@ -8,7 +10,10 @@ window.app.controller('PostController', ['$scope', 'postDataService', function($
       image_url: this.post.image_url,
       description: this.post.description,
       votes: 0,
-      postedAt: new Date()
+      postedAt: new Date(),
+      comments: [],
+      showComments: false,
+      postComment: false,
     });
     $scope.updatePosts();
     $scope.post = {};
@@ -29,6 +34,12 @@ window.app.controller('PostController', ['$scope', 'postDataService', function($
   };
   $scope.editPost = function(id) {
     postDataService.editPost(id, this.post)
+      .then(function(post) {
+        $scope.updatePosts();
+      });
+  };
+  $scope.addComment = function(id) {
+    postDataService.addComment(id, this.comment)
       .then(function(post) {
         $scope.updatePosts();
       });

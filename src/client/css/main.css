@@ -1,0 +1,116 @@
+.container {
+  padding: 25px;
+}
+
+.block-inline {
+  display: inline-block;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+  display: none !important;
+}
+
+/* Styling the divs that make up each post */
+.description {
+  overflow: scroll;
+  height: 100px;
+}
+.jumbotron .description {
+  font-size: 16px;
+}
+.jumbotron {
+  max-height: 100%;
+}
+.text-right {
+  display: inline-block;
+}
+.glyphicon {
+  pointer-events: all;
+}
+.smaller-font {
+  font-size: 25px;
+  color: #555454;
+}
+
+/* Styling the votes */
+
+.red {
+  color: red;
+}
+
+.green {
+  color: #279800;
+}
+
+/* Styling the mouse cursor on all links */
+
+.pointer {
+  cursor: pointer;
+}
+
+/*  Form Validations */
+
+.form-horizontal input.ng-invalid.ng-touched {
+  border: 1px solid #ff0039;
+}
+
+.form-horizontal input.ng-valid.ng-touched {
+  border: 1px solid #3fb618;
+}
+
+.form-horizontal textarea.ng-invalid.ng-touched {
+  border: 1px solid #ff0039;
+  outline: none;
+}
+
+.form-horizontal textarea.ng-valid.ng-touched {
+  border: 1px solid #3fb618;
+  outline: none;
+}
+
+.red-color {
+  color: #ff0039;
+  font-weight: 200;
+  font-size: 20px;
+}
+/* Disable the ability to select the text for anything you'll be clicking on */
+
+.disable-selection {
+     -moz-user-select: none; /* Firefox */
+      -ms-user-select: none; /* Internet Explorer */
+   -khtml-user-select: none; /* KHTML browsers (e.g. Konqueror) */
+  -webkit-user-select: none; /* Chrome, Safari, and Opera */
+  -webkit-touch-callout: none; /* Disable Android and iOS callouts*/
+}
+
+/* Style the fade animations with the search. */
+.jumbotron.fadeNG {
+  -webkit-transition: 0.6s linear max-height;
+  -webkit-transition: 0.6s linear all;
+}
+
+.jumbotron.fadeNG.ng-enter {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.jumbotron.fadeNG.ng-enter.ng-enter-active {
+  opacity: 1;
+  max-height: 100%;
+  padding: inherit;
+}
+
+.jumbotron.fadeNG.ng-leave {
+  opacity: 1;
+  max-height: 100%;
+  padding: inherit;
+}
+
+.jumbotron.fadeNG.ng-leave.ng-leave-active {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+}

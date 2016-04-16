@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+  <head>
+    <meta charset="utf-8">
+    <title>Reddit Clone</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cosmo/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/main.css" />
+  </head>
+  <body ng-controller="PostController" ng-cloak>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">Reddit Clone</span>
+        </div>
+
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a class="pointer" ng-click="post.showSubmit = !post.showSubmit"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Post</a></li>
+          </ul>
+          <form class="navbar-form navbar-left" role="search">
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search" ng-model="expression">
+            </div>
+          </form>
+          <ul class="nav navbar-nav">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sort By<span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu" ng-model="sort">
+                <li><a href="#" ng-click="sort='rating'; post.reverse=!post.reverse">Votes</a></li>
+                <li><a href="#" ng-click="sort='comments.length'; post.reverse=!post.reverse">Comments</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <div class="container">
+      <form ng-show="post.showSubmit" class="form-horizontal" ng-submit="post.addPost()" novalidate name="postForm">
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3">
+            <input type="text" class="form-control" placeholder="Title" name="title" ng-model="post.title" required/>
+            <div class="help-block" ng-messages="postForm.title.$error" ng-show="postForm.title.$touched">
+                <p class="red-color" ng-message="required">Please enter a title.</p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3">
+            <input type="text" class="form-control" placeholder="Author" name="author" ng-model="post.author" required/>
+            <div class="help-block" ng-messages="postForm.author.$error" ng-show="postForm.author.$touched">
+                <p class="red-color" ng-message="required">Please enter an author.</p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3">
+            <input type="text" class="form-control" placeholder="Image URL (200x200px)" name="image_url" ng-model="post.image_url" required/>
+            <div class="help-block" ng-messages="postForm.image_url.$error" ng-show="postForm.image_url.$touched">
+                <p class="red-color" ng-message="required">Please enter an image URL.</p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-6 col-lg-offset-3">
+            <textarea class="form-control" placeholder="Description" name="description" ng-model="post.description" required/></textarea>
+            <div class="help-block" ng-messages="postForm.description.$error" ng-show="postForm.description.$touched">
+                <p class="red-color" ng-message="required">Please enter a description</p>
+            </div>
+          </div>
+        </div>
+        <br />
+        <div class="row">
+          <div class="col-lg-2 col-lg-offset-5">
+            <button type="submit" class="btn btn-lg btn-info" ng-disabled="postForm.$invalid">Submit</button>
+          </div>
+        </div>
+      </form>
+      <br />
+      <div class="jumbotron post fadeNG" ng-repeat="postObj in post.get() | orderBy:sort:post.reverse | filter:expression">
+        <div class="row">
+          <div class="col-lg-3">
+            <img ng-src="{{ postObj.image_url }}" alt="{{ postObj.image_url }}" height="200px" width="200px"/>
+          </div>
+          <div class="col-lg-9">
+            <h2 class="disable-selection">
+              {{ postObj.title }}
+              <span class="glyphicon glyphicon-arrow-up pointer smaller-font" ng-click="post.upVote(postObj)"></span></span>
+              <span ng-click="post.downVote(postObj)"><span class="glyphicon glyphicon-arrow-down pointer smaller-font"></span></span>&nbsp;&nbsp;<span class="votes" ng-class="{red: postObj.rating < 0, green: postObj.rating > 0}">{{ postObj.rating }}</span>
+              <p class="pull-right">By {{ postObj.author }}</p>
+            </h2>
+            <p class="description">
+              {{ postObj.description }}
+            </p>
+            <div class="block-inline" ng-controller="mainController as main">
+                <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Posted <time am-time-ago="main.time"></time>
+            </div>
+            &nbsp;<span><strong>|</strong></span>&nbsp;
+            <div class="block-inline disable-selection pointer" ng-click="postObj.showComments = !postObj.showComments">
+                <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;{{ postObj.comments.length }} <ng-pluralize count="postObj.comments.length" when="{'one': 'comment', other: 'comments'}"></ng-pluralize>
+            </div>
+            &nbsp;<span><strong>|</strong></span>&nbsp;
+            <div class="block-inline pointer" ng-click="postObj.postComment = !postObj.postComment" >
+                <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Add Comment
+            </div>
+            <br />
+            <div class="addComment" ng-show="postObj.postComment">
+              <br />
+              <form class="form-horizontal" ng-submit="post.addComment(post.name, post.text, postObj)" name="commentForm" novalidate>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" name="name" ng-model="post.name" placeholder="Name" required/>
+                    <div class="help-block" ng-messages="commentForm.name.$error" ng-show="commentForm.name.$touched">
+                        <p class="red-color" ng-message="required">Please enter a name.</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-5">
+                    <input type="text" class="form-control" name="text" ng-model="post.text" placeholder="Comment" required/>
+                    <div class="help-block" ng-messages="commentForm.text.$error" ng-show="commentForm.text.$touched">
+                        <p class="red-color" ng-message="required">Please enter a comment.</p>
+                    </div>
+                  </div>
+                  <div class="col-lg-2">
+                    <button type="submit" class="btn btn-info btn-md" ng-disabled="commentForm.$invalid">Post Comment</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="comments" ng-show="postObj.showComments">
+              <h5 ng-repeat="comment in postObj.comments" class="smaller-text">
+                <strong>{{ comment.name }}</strong>: {{ comment.text }}
+              </h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <!-- Load jQuery -->
+  <script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <!-- load Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  <!-- load angular -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+  <!-- load ngmessages -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+  <!-- Load angular animations -->
+  <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular-animate.js"></script>
+  <!-- load momentJS (required for angular-moment) -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+  <!-- load angular-moment -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/angular-moment/0.9.0/angular-moment.min.js"></script>
+
+  <script src="./js/app.js" type="text/javascript"></script>
+  <script src="./js/controllers.js" type="text/javascript"></script>
+  <script src="./js/directives.js" type="text/javascript"></script>
+  <script src="./js/filters.js" type="text/javascript"></script>
+  <script src="./js/services.js" type="text/javascript"></script>
+  </body>
+</html>

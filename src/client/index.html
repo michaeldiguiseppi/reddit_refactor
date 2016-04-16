@@ -21,7 +21,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a class="pointer" ng-click="postObject.showSubmit = !postObject.showSubmit"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Post</a></li>
+            <li><a class="pointer" ng-click="showSubmit = !showSubmit"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Post</a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
@@ -41,7 +41,7 @@
       </div>
     </nav>
     <div class="container">
-      <form ng-show="postObject.showSubmit" class="form-horizontal" ng-submit="addPost()" novalidate name="postForm">
+      <form ng-show="showSubmit" class="form-horizontal" ng-submit="addPost()" novalidate name="postForm">
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
             <input type="text" class="form-control" placeholder="Title" name="title" ng-model="post.title" required/>
@@ -85,7 +85,7 @@
         </div>
       </form>
       <br />
-      <div class="jumbotron post fadeNG" ng-repeat="postObj in blah blah| orderBy:sort:post.reverse | filter:expression">
+      <div class="jumbotron post fadeNG" ng-repeat="postObj in posts| orderBy:sort:post.reverse | filter:expression">
         <div class="row">
           <div class="col-lg-3">
             <img ng-src="{{ postObj.image_url }}" alt="{{ postObj.image_url }}" height="200px" width="200px"/>
@@ -94,14 +94,14 @@
             <h2 class="disable-selection">
               {{ postObj.title }}
               <span class="glyphicon glyphicon-arrow-up pointer smaller-font" ng-click="post.upVote(postObj)"></span></span>
-              <span ng-click="post.downVote(postObj)"><span class="glyphicon glyphicon-arrow-down pointer smaller-font"></span></span>&nbsp;&nbsp;<span class="votes" ng-class="{red: postObj.rating < 0, green: postObj.rating > 0}">{{ postObj.rating }}</span>
+              <span ng-click="post.downVote(postObj)"><span class="glyphicon glyphicon-arrow-down pointer smaller-font"></span></span>&nbsp;&nbsp;<span class="votes" ng-class="{red: postObj.rating < 0, green: postObj.rating > 0}">{{ postObj.votes }}</span>
               <p class="pull-right">By {{ postObj.author }}</p>
             </h2>
             <p class="description">
               {{ postObj.description }}
             </p>
-            <div class="block-inline" ng-controller="mainController as main">
-                <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Posted <time am-time-ago="main.time"></time>
+            <div class="block-inline">
+                <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Posted <time am-time-ago="postObj.postedAt"></time>
             </div>
             &nbsp;<span><strong>|</strong></span>&nbsp;
             <div class="block-inline disable-selection pointer" ng-click="postObj.showComments = !postObj.showComments">

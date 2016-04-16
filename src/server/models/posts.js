@@ -21,6 +21,10 @@ var PostSchema = new Schema({
   },
   votes: {
     type: Number,
+    default: 0,
+  },
+  postedAt: {
+    type: Date,
   }
 });
 

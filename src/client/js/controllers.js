@@ -1,16 +1,24 @@
-window.app.controller('PostController', ['$scope', 'postDataService', 'post', function($scope, postDataService, post) {
+window.app.controller('PostController', ['$scope', 'postDataService', function($scope, postDataService) {
   $scope.post = {};
-  $scope.postObject = post;
+  $scope.showSubmit = false;
   $scope.addPost = function() {
-    postDataService.addPost(this.post);
+    postDataService.addPost({
+      title: this.post.title,
+      author: this.post.author,
+      image_url: this.post.image_url,
+      description: this.post.description,
+      votes: 0,
+      postedAt: new Date()
+    });
     $scope.updatePosts();
     $scope.post = {};
+    $scope.showSubmit = false;
   };
   $scope.updatePosts = function() {
     postDataService.getAllPosts()
       .then(function(posts) {
         console.log(posts);
-        // $scope.posts = posts.data.data;
+        $scope.posts = posts.data.data;
       });
   };
   $scope.deletePost = function(id) {
@@ -25,10 +33,11 @@ window.app.controller('PostController', ['$scope', 'postDataService', 'post', fu
         $scope.updatePosts();
       });
   };
+  $scope.updatePosts();
   $scope.sort = 'rating';
 }]);
-
-window.app.controller('mainController', function() {
-  var vm = this;
-  vm.time = new Date();
-});
+//
+// window.app.controller('mainController', function() {
+//   var vm = this;
+//   vm.time = new Date();
+// });

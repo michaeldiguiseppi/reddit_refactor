@@ -86,6 +86,11 @@ app.service('postDataService', ['crudService', function(crudService) {
       return crudService.editOne('posts', post_id, post).then(function(post) {
         return post;
       });
+    },
+    addComment: function(post_id, comment) {
+      return crudService.addComment('posts', post_id, comment).then(function(post) {
+        return post;
+      });
     }
   };
 }]);
@@ -133,6 +138,9 @@ app.service('crudService', ['$http', function($http) {
       }).catch(function(err) {
         return err;
       });
+    },
+    addComment: function(resource, id, data) {
+      
     }
   };
 }]);

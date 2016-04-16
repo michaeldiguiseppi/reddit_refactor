@@ -9,7 +9,8 @@ window.app.controller('PostController', ['$scope', 'postDataService', 'post', fu
   $scope.updatePosts = function() {
     postDataService.getAllPosts()
       .then(function(posts) {
-        $scope.posts = posts.data.data;
+        console.log(posts);
+        // $scope.posts = posts.data.data;
       });
   };
   $scope.deletePost = function(id) {
@@ -24,7 +25,6 @@ window.app.controller('PostController', ['$scope', 'postDataService', 'post', fu
         $scope.updatePosts();
       });
   };
-  $scope.updatePosts();
   $scope.sort = 'rating';
 }]);
 

@@ -7,6 +7,7 @@ var Post = require('../models/posts.js');
 router.get('/', function(req, res, next) {
   Post.find()
     .then(function(posts) {
+      console.log(posts);
       res.status(200).json({
         status: 'success',
         data: posts

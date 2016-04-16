@@ -5,15 +5,27 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var config = require('../_config');
 
 
 // *** routes *** //
 var routes = require('./routes/index.js');
-
+var postRoutes = require('./routes/posts.js');
 
 // *** express instance *** //
 var app = express();
 
+
+// *** set up mongo *** //
+var environment = process.env.NODE_ENV || 'development';
+var mongoURI = config.mongoURI[environment];
+
+mongoose.connect(mongoURI, function(err, res) {
+  if (err) {
+    console.log('Error connecting to the database. ' + err);
+  }
+});
 
 // *** view engine *** //
 // var swig = new swig.Swig();
@@ -35,6 +47,7 @@ app.use(express.static(path.join(__dirname, '../client')));
 
 // *** main routes *** //
 app.use('/', routes);
+app.use('/posts', postRoutes);
 
 
 // catch 404 and forward to error handler

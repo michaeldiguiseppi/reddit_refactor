@@ -21,7 +21,7 @@
 
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
-            <li><a class="pointer" ng-click="post.showSubmit = !post.showSubmit"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Post</a></li>
+            <li><a class="pointer" ng-click="postObject.showSubmit = !postObject.showSubmit"><span class="glyphicon glyphicon-plus"></span>&nbsp;&nbsp;Submit Post</a></li>
           </ul>
           <form class="navbar-form navbar-left" role="search">
             <div class="form-group">
@@ -32,8 +32,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sort By<span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu" ng-model="sort">
-                <li><a href="#" ng-click="sort='rating'; post.reverse=!post.reverse">Votes</a></li>
-                <li><a href="#" ng-click="sort='comments.length'; post.reverse=!post.reverse">Comments</a></li>
+                <li><a href="#" ng-click="sort='rating'; postObject.reverse=!postObject.reverse">Votes</a></li>
+                <li><a href="#" ng-click="sort='comments.length'; postObject.reverse=!postObject.reverse">Comments</a></li>
               </ul>
             </li>
           </ul>
@@ -41,7 +41,7 @@
       </div>
     </nav>
     <div class="container">
-      <form ng-show="post.showSubmit" class="form-horizontal" ng-submit="post.addPost()" novalidate name="postForm">
+      <form ng-show="postObject.showSubmit" class="form-horizontal" ng-submit="addPost()" novalidate name="postForm">
         <div class="row">
           <div class="col-lg-6 col-lg-offset-3">
             <input type="text" class="form-control" placeholder="Title" name="title" ng-model="post.title" required/>
@@ -85,7 +85,7 @@
         </div>
       </form>
       <br />
-      <div class="jumbotron post fadeNG" ng-repeat="postObj in post.get() | orderBy:sort:post.reverse | filter:expression">
+      <div class="jumbotron post fadeNG" ng-repeat="postObj in getAllPosts() | orderBy:sort:post.reverse | filter:expression">
         <div class="row">
           <div class="col-lg-3">
             <img ng-src="{{ postObj.image_url }}" alt="{{ postObj.image_url }}" height="200px" width="200px"/>

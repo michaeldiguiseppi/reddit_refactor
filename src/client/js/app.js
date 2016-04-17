@@ -1,1 +1,1 @@
-window.app = angular.module('myApp', ['angularMoment', 'ngAnimate', 'ngMessages']);
+window.app = angular.module('myApp', ['angularMoment', 'ngAnimate', 'ngMessages', 'ngRoute']);

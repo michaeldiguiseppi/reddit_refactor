@@ -1,0 +1,106 @@
+<div class="container">
+  <form ng-show="showSubmit" class="form-horizontal" ng-submit="addPost()" novalidate name="postForm">
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3">
+        <input type="text" class="form-control" placeholder="Title" name="title" ng-model="post.title" required/>
+        <div class="help-block" ng-messages="postForm.title.$error" ng-show="postForm.title.$touched">
+            <p class="red-color" ng-message="required">Please enter a title.</p>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3">
+        <input type="text" class="form-control" placeholder="Author" name="author" ng-model="post.author" required/>
+        <div class="help-block" ng-messages="postForm.author.$error" ng-show="postForm.author.$touched">
+            <p class="red-color" ng-message="required">Please enter an author.</p>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3">
+        <input type="text" class="form-control" placeholder="Image URL (200x200px)" name="image_url" ng-model="post.image_url" required/>
+        <div class="help-block" ng-messages="postForm.image_url.$error" ng-show="postForm.image_url.$touched">
+            <p class="red-color" ng-message="required">Please enter an image URL.</p>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-lg-6 col-lg-offset-3">
+        <textarea class="form-control" placeholder="Description" name="description" ng-model="post.description" required/></textarea>
+        <div class="help-block" ng-messages="postForm.description.$error" ng-show="postForm.description.$touched">
+            <p class="red-color" ng-message="required">Please enter a description</p>
+        </div>
+      </div>
+    </div>
+    <br />
+    <div class="row">
+      <div class="col-lg-2 col-lg-offset-5">
+        <button type="submit" class="btn btn-lg btn-info" ng-disabled="postForm.$invalid">Submit</button>
+      </div>
+    </div>
+  </form>
+  <br />
+  <div class="jumbotron post fadeNG" ng-repeat="postObj in posts | orderBy:sort:post.reverse | filter:expression">
+    <div class="row">
+      <div class="col-lg-3">
+        <img ng-src="{{ postObj.image_url }}" alt="{{ postObj.image_url }}" height="200px" width="200px"/>
+      </div>
+      <div class="col-lg-9">
+        <h2 class="disable-selection">
+          {{ postObj.title }}
+          <span class="glyphicon glyphicon-arrow-up pointer smaller-font" ng-click="vote(postObj._id, 'up')"></span></span>
+          <span ng-click="vote(postObj._id, 'down')"><span class="glyphicon glyphicon-arrow-down pointer smaller-font"></span></span>&nbsp;&nbsp;<span class="votes" ng-class="{red: postObj.votes < 0, green: postObj.votes > 0}">{{ postObj.votes }}</span>
+          <p class="pull-right">By {{ postObj.author }}</p>
+        </h2>
+        <p class="description">
+          {{ postObj.description }}
+        </p>
+        <div class="block-inline">
+            <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Posted <time am-time-ago="postObj.postedAt"></time>
+        </div>
+        &nbsp;<span><strong>|</strong></span>&nbsp;
+        <div class="block-inline disable-selection pointer" ng-click="postObj.showComments = !postObj.showComments">
+            <span class="glyphicon glyphicon-comment"></span>&nbsp;&nbsp;{{ postObj.comments.length }} <ng-pluralize count="postObj.comments.length" when="{'one': 'comment', other: 'comments'}"></ng-pluralize>
+        </div>
+        &nbsp;<span><strong>|</strong></span>&nbsp;
+        <div class="block-inline pointer disable-selection " ng-click="postObj.postComment = !postObj.postComment" >
+            <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Add Comment
+        </div>
+        <div class="block-inline pointer pull-right">
+            <span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-click="deletePost(postObj._id)">Delete</span>
+        </div>
+        <br />
+        <div class="addComment" ng-show="postObj.postComment">
+          <br />
+          <form class="form-horizontal" ng-submit="addComment(postObj._id)" name="commentForm" novalidate>
+            <div class="row">
+              <div class="col-lg-5">
+                <input type="text" class="form-control" name="name" ng-model="comment.name" placeholder="Name" required/>
+                <div class="help-block" ng-messages="commentForm.name.$error" ng-show="commentForm.name.$touched">
+                    <p class="red-color" ng-message="required">Please enter a name.</p>
+                </div>
+              </div>
+              <div class="col-lg-5">
+                <input type="text" class="form-control" name="text" ng-model="comment.text" placeholder="Comment" required/>
+                <div class="help-block" ng-messages="commentForm.text.$error" ng-show="commentForm.text.$touched">
+                    <p class="red-color" ng-message="required">Please enter a comment.</p>
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <button type="submit" class="btn btn-info btn-md" ng-disabled="commentForm.$invalid">Post Comment</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="comments" ng-show="postObj.showComments">
+          <h5 ng-repeat="comment in postObj.comments" class="smaller-text">
+            <strong>{{ comment.author }}</strong>: {{ comment.message }}
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

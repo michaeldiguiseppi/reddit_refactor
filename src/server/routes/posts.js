@@ -7,10 +7,21 @@ var Post = require('../models/posts.js');
 router.get('/', function(req, res, next) {
   Post.find()
     .then(function(posts) {
-      console.log(posts);
       res.status(200).json({
         status: 'success',
         data: posts
+      });
+    }).catch(function(err) {
+      return next(err);
+    });
+});
+
+router.get('/:id', function(req, res, next) {
+  Post.findOne(req.params.id)
+    .then(function(post) {
+      res.status(200).json({
+        status: 'success',
+        data: post,
       });
     }).catch(function(err) {
       return next(err);
@@ -56,7 +67,6 @@ router.delete('/:id', function(req, res, next) {
 });
 
 router.post('/:id/comment', function(req, res, next) {
-  // db.posts.update({title: "Butterflies"}, {$addToSet: {comments: {author: "Mike", message: "Blah"}}})
   Post.findByIdAndUpdate(req.params.id, {$addToSet: {comments: req.body}}, {new: true})
     .then(function(comment) {
       res.status(200).json({

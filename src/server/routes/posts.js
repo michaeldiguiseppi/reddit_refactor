@@ -17,7 +17,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/:id', function(req, res, next) {
-  Post.findOne(req.params.id)
+  Post.findById(req.params.id)
     .then(function(post) {
       res.status(200).json({
         status: 'success',

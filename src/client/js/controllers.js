@@ -63,19 +63,20 @@ window.app.controller('PostController', ['$scope', 'authService', 'postDataServi
   };
   $scope.vote = function(id, direction) {
     postDataService.getOnePost(id).then(function(post) {
-      // if (direction === 'up') {
-      //   post.data.data.votes++;
-      // } else {
-      //   post.data.data.votes--;
-      // }
-      // postDataService.editPost(id, post.data.data).then(function(post) {
-      //   $scope.updatePosts();
-      // });
+      if (direction === 'up') {
+        post.data.data.votes++;
+      } else {
+        post.data.data.votes--;
+      }
+      postDataService.editPost(id, post.data.data).then(function(post) {
+        $scope.updatePosts();
+      });
     });
   };
 
   $scope.updatePosts();
-  $scope.sort = 'rating';
+  $scope.sort = 'votes';
+  $scope.reverse = false;
 }]);
 
 app.controller('signupController', ['$scope', '$location', 'authService', function($scope,  $location, authService) {

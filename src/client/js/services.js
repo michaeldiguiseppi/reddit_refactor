@@ -21,9 +21,7 @@ app.service('postDataService', ['crudService', function(crudService) {
       });
     },
     getOnePost: function(post_id) {
-      console.log('THIS IS WHAT\'S PASSED IN!', post_id);
       return crudService.getOne('posts', post_id).then(function(post) {
-        console.log('WHY IS THIS DIFFERENT!', post.data.data._id);
         return post;
       });
     },

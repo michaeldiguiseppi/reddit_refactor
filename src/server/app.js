@@ -6,7 +6,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var config = require('../_config');
 
 
 // *** routes *** //
@@ -20,8 +19,7 @@ var app = express();
 
 // *** set up mongo *** //
 var environment = process.env.NODE_ENV || 'development';
-var mongoURI = process.env.MONGODB_URI || config.mongoURI[environment];
-
+var mongoURI = process.env.MONGODB_URI;
 mongoose.connect(mongoURI, function(err, res) {
   if (err) {
     console.log('Error connecting to the database. ' + err);

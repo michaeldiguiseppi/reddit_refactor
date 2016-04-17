@@ -69,7 +69,7 @@
         <div class="block-inline pointer disable-selection " ng-click="postObj.postComment = !postObj.postComment" >
             <span class="glyphicon glyphicon-pencil"></span>&nbsp;&nbsp;Add Comment
         </div>
-        <div class="block-inline pointer pull-right">
+        <div class="block-inline pointer pull-right" ng-show="user.admin">
             <span class="glyphicon glyphicon-remove"></span>&nbsp;<span ng-click="deletePost(postObj._id)">Delete</span>
         </div>
         <br />

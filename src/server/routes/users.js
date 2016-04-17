@@ -8,7 +8,7 @@ var config = require('../../_config.js');
 // register
 router.post('/register', function(req, res, next) {
   // ensure user does not already exist
-    User.findOne({email: req.body.email}, function(err, existingUser) {
+    User.find({email: req.body.email}, function(err, existingUser) {
       if (err) return next(err);
       if (existingUser) {
         return res.status(409).json({

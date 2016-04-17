@@ -3,8 +3,9 @@ window.app.controller('PostController', ['$scope', 'authService', 'postDataServi
   $scope.comment = {};
   $scope.showSubmit = false;
   $scope.showComments = false;
-  var user = authService.getUserInfo();
-  if (user) {
+  $scope.user = JSON.parse(authService.getUserInfo());
+  console.log($scope.user);
+  if ($scope.user) {
     $scope.loggedIn = true;
   } else {
     $scope.loggedIn = false;
@@ -76,7 +77,7 @@ window.app.controller('PostController', ['$scope', 'authService', 'postDataServi
 
   $scope.updatePosts();
   $scope.sort = 'votes';
-  $scope.reverse = false;
+  $scope.reverse = true;
 }]);
 
 app.controller('signupController', ['$scope', '$location', 'authService', function($scope,  $location, authService) {

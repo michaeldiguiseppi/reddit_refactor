@@ -114,16 +114,16 @@
             <br />
             <div class="addComment" ng-show="postObj.postComment">
               <br />
-              <form class="form-horizontal" ng-submit="post.addComment(post.name, post.text, postObj)" name="commentForm" novalidate>
+              <form class="form-horizontal" ng-submit="addComment(postObj._id)" name="commentForm" novalidate>
                 <div class="row">
                   <div class="col-lg-5">
-                    <input type="text" class="form-control" name="name" ng-model="post.name" placeholder="Name" required/>
+                    <input type="text" class="form-control" name="name" ng-model="comment.name" placeholder="Name" required/>
                     <div class="help-block" ng-messages="commentForm.name.$error" ng-show="commentForm.name.$touched">
                         <p class="red-color" ng-message="required">Please enter a name.</p>
                     </div>
                   </div>
                   <div class="col-lg-5">
-                    <input type="text" class="form-control" name="text" ng-model="post.text" placeholder="Comment" required/>
+                    <input type="text" class="form-control" name="text" ng-model="comment.text" placeholder="Comment" required/>
                     <div class="help-block" ng-messages="commentForm.text.$error" ng-show="commentForm.text.$touched">
                         <p class="red-color" ng-message="required">Please enter a comment.</p>
                     </div>
@@ -136,7 +136,7 @@
             </div>
             <div class="comments" ng-show="postObj.showComments">
               <h5 ng-repeat="comment in postObj.comments" class="smaller-text">
-                <strong>{{ comment.name }}</strong>: {{ comment.text }}
+                <strong>{{ comment.author }}</strong>: {{ comment.message }}
               </h5>
             </div>
           </div>

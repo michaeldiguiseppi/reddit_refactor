@@ -39,9 +39,15 @@ window.app.controller('PostController', ['$scope', 'postDataService', function($
       });
   };
   $scope.addComment = function(id) {
-    postDataService.addComment(id, this.comment)
+    console.log('ID', id);
+    console.log('COMMENT_FORM:', this.comment);
+    postDataService.addComment(id, {
+      author: this.comment.name,
+      message: this.comment.text,
+    })
       .then(function(post) {
         $scope.updatePosts();
+        $scope.comment = {};
       });
   };
   $scope.updatePosts();

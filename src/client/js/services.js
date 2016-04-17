@@ -140,7 +140,15 @@ app.service('crudService', ['$http', function($http) {
       });
     },
     addComment: function(resource, id, data) {
-      
+      return $http({
+        method: 'POST',
+        url: '/'+resource+'/'+id+'/comment',
+        data: data,
+      }).then(function(resource) {
+        return resource;
+      }).catch(function(err) {
+        return err;
+      });
     }
   };
 }]);

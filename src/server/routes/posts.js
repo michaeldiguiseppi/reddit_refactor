@@ -55,4 +55,15 @@ router.delete('/:id', function(req, res, next) {
     });
 });
 
+router.post('/:id/comment', function(req, res, next) {
+  // db.posts.update({title: "Butterflies"}, {$addToSet: {comments: {author: "Mike", message: "Blah"}}})
+  Post.findByIdAndUpdate(req.params.id, {$addToSet: {comments: req.body}}, {new: true})
+    .then(function(comment) {
+      res.status(200).json({
+        status: 'success',
+        data: comment
+      });
+    });
+});
+
 module.exports = router;

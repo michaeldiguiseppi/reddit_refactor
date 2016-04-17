@@ -62,9 +62,7 @@ window.app.controller('PostController', ['$scope', 'authService', 'postDataServi
       });
   };
   $scope.vote = function(id, direction) {
-    console.log('ID: ', id, 'direction: ', direction);
     postDataService.getOnePost(id).then(function(post) {
-      console.log(post);
       // if (direction === 'up') {
       //   post.data.data.votes++;
       // } else {

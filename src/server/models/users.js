@@ -2,6 +2,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var bcrypt = require('bcryptjs');
 if (!process.env.NODE_ENV) { var config = require('../../_config'); }
+else {
+  var config = process.env;
+}
+
 
 var UserSchema = new Schema({
   firstName: {

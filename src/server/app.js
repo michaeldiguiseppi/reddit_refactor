@@ -7,6 +7,10 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 if (!process.env.NODE_ENV) { var config = require('../_config'); }
+else {
+  var config = process.env;
+}
+
 
 
 // *** routes *** //
@@ -20,7 +24,12 @@ var app = express();
 
 // *** set up mongo *** //
 var environment = process.env.NODE_ENV || 'development';
-var mongoURI = config.mongoURI[environment];
+if (!process.env.NODE_ENV) {
+    var mongoURI = config.mongoURI[environment];
+} else {
+  var mongoURI = process.env.MONGODB_URI;
+}
+
 
 mongoose.connect(mongoURI, function(err, res) {
   if (err) {

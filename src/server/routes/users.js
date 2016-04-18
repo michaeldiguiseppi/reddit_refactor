@@ -3,7 +3,9 @@ var router = express.Router();
 var User = require('../models/users');
 var moment = require('moment');
 var jwt = require('jwt-simple');
-if (!process.env.NODE_ENV) { var config = require('../../_config.js'); }
+if (!process.env.NODE_ENV) { var config = require('../../_config.js'); } else {
+  var config = process.env;
+}
 
 // register
 router.post('/register', function(req, res, next) {
